@@ -1,11 +1,27 @@
+import js from "@eslint/js";
+import tseslint from "typescript-eslint";
+import reactHooks from "eslint-plugin-react-hooks";
+import globals from "globals";
 import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
 
-const eslintConfig = defineConfig([
-  ...nextVitals,
-  ...nextTs,
-  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts"]),
+export default defineConfig([
+  {
+    files: ["**/*.{js,mjs,cjs,ts,tsx}"],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+    },
+  },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  reactHooks.configs.flat.recommended,
+  globalIgnores([
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+    "node_modules/**",
+  ]),
 ]);
-
-export default eslintConfig;
